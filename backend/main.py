@@ -1,8 +1,18 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBearer
+from fastapi.middleware.cors import CORSMiddleware
 from auth import authenticate, get_user_from_token
 
 app = FastAPI()
+
+# CORS para permitir conexión desde el frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 security = HTTPBearer()
 
