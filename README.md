@@ -2,11 +2,19 @@
 
 Este proyecto fue desarrollado como solución a la prueba técnica solicitada.
 
-La aplicación consiste en un sistema simple de autenticación con:
+La aplicación consiste en un sistema simple de autenticación que permite a un usuario iniciar sesión y acceder a un endpoint protegido.
 
-- Backend desarrollado en **Python usando FastAPI**
-- Frontend desarrollado en **Vue.js**
-- Validación de usuarios utilizando un **archivo de texto (.txt)** como base de datos simple
+Características
+
+- Backend desarrollado en Python con FastAPI
+
+- Frontend desarrollado en Vue.js
+
+- Autenticación mediante JWT
+
+- Persistencia de usuarios usando un archivo de texto (.txt) como base de datos simple
+
+- Separación clara entre backend y frontend
 
 ---
 
@@ -50,7 +58,6 @@ frontend
 
 README.md
 
-
 ---
 
 # Backend
@@ -75,6 +82,7 @@ Ejemplo de request:
   "email": "demo@test.com",
   "password": "Demo123"
 }
+```
 
 Las credenciales se validan contra el archivo users.txt, que funciona como una base de datos simple.
 
@@ -83,6 +91,8 @@ Ejemplo del archivo:
 id,name,email,password
 1,Demo User,demo@test.com,Demo123
 2,Test User,test@test.com,Test123
+
+- Proceso de autenticación
 
 El backend realiza los siguientes pasos:
 
@@ -94,11 +104,12 @@ Valida la contraseña
 
 Si es correcta, genera un token JWT
 
-Respuesta del endpoint:
-
+- Respuesta del endpoint:
+```json
 {
   "token": "jwt_token"
 }
+```
 2. Endpoint protegido
 GET /me
 
@@ -110,16 +121,19 @@ Authorization: Bearer TOKEN
 
 Si el token es válido, el endpoint devuelve la información del usuario autenticado:
 
+```json
 {
   "id": "1",
   "name": "Demo User",
   "email": "demo@test.com"
 }
-Frontend
+```
+
+# Frontend
 
 El frontend fue desarrollado con Vue.js y permite interactuar con la API.
 
-Incluye:
+- Funcionalidades
 
 Pantalla de login
 
@@ -135,7 +149,7 @@ Mostrar información del usuario autenticado
 
 Opción de cerrar sesión (logout)
 
-Flujo de autenticación:
+- Flujo de Autenticación
 
 El usuario ingresa email y contraseña.
 
@@ -151,61 +165,25 @@ El frontend usa ese token para llamar al endpoint /me.
 
 Se muestra la información del usuario autenticado.
 
-Cómo ejecutar el proyecto
-
-El proyecto fue desarrollado utilizando versiones recientes de Python y Node.js.
-
-Requisitos previos
+# Cómo ejecutar el proyecto
 
 Para ejecutar este proyecto es necesario tener instalado:
 
-Python (versión 3.10 o superior)
+Python 3.10 o superior
 
-Node.js (versión 20 o superior)
+Node.js 20 o superior
 
-npm (se instala junto con Node.js)
+# Ejecutar el Backend
 
-Instalación de dependencias
-Instalar Python
-
-Descargar desde el sitio oficial:
-
-https://www.python.org/downloads/
-
-Durante la instalación, asegurarse de marcar la opción:
-
-Add Python to PATH
-Instalar Node.js
-
-Descargar desde:
-
-https://nodejs.org/
-
-Instalar la versión LTS recomendada.
-
-Esto instalará automáticamente npm, que se utiliza para ejecutar el frontend.
-
-Verificar instalación
-
-Después de instalar, se puede verificar desde la terminal:
-
-python --version
-node --version
-npm --version
-
-Si todo está instalado correctamente, se mostrará la versión de cada herramienta.
-
-Ejecutar el Backend
-
-Entrar a la carpeta backend:
+- Entrar a la carpeta backend:
 
 cd backend
 
-Crear entorno virtual:
+- Crear entorno virtual:
 
 python -m venv venv
 
-Activar el entorno virtual.
+- Activar el entorno virtual.
 
 En Windows:
 
@@ -215,11 +193,25 @@ En Linux o Mac:
 
 source venv/bin/activate
 
-Instalar dependencias:
+cuando se activa la version vas a ver debajo de cada comnado una linea con nombre venv 
+
+- Instalar dependencias:
 
 pip install -r requirements.txt
 
-Ejecutar el servidor:
+- Ejecutar el servidor:
+
+python -m uvicorn main:app --reload
+
+- posible error si la version de python es muy reciente(3.14 y no 3.12):
+
+No module named 'pydantic_core._pydantic_core' in AWS Lambda though library is installed for FastAPI based code
+
+La solucion de este error por ser una version muy nueva de python es instalar el modulo faltanete
+
+pip install pydantic-core --platform manylinux2014_x86_64 -t . --only-binary=:all:
+
+volver a ejecutar 
 
 python -m uvicorn main:app --reload
 
@@ -230,23 +222,25 @@ http://127.0.0.1:8000
 Documentación automática de la API:
 
 http://127.0.0.1:8000/docs
-Ejecutar el Frontend
 
-Entrar a la carpeta frontend:
+# Ejecutar el Frontend
+
+- Entrar a la carpeta frontend:
 
 cd frontend
 
-Instalar dependencias:
+- Instalar dependencias:
 
 npm install
 
-Ejecutar el proyecto:
+- Ejecutar el proyecto:
 
 npm run dev
 
 La aplicación estará disponible en:
 
 http://localhost:5173
+
 Notas
 
 Este proyecto fue diseñado con una arquitectura simple para demostrar:
